@@ -78,6 +78,7 @@ public class Solution {
 2. Add Two Numbers  
 //Star:
 //1.注意在改变node值时，node是否为空。所以最好操作node.next，返回时返回head.next就可以解决这个问题。即head作为无意义node
+//1.修正  res.next是为了最后如果还有进位的话，
 //2.case:[null,null]->因为返回的是ListNode，假如传进来的参数是两个null，那么while(l1 != null || l2 != null){}这个核心方法体就会被跳过。
 //但是返回null和返回一个new ListNode(0)因该说均符合这个答案要求。
 //所以不用担心当传入两个null时会造成错误,最后return res.next直接返回一个null也是符合题意的
@@ -574,7 +575,7 @@ public class Solution {
 			//mark1:单独字符情况
             dp[i][i] = true;
         }
-        for(int j = 0;j<=n-1;j++){
+        for(int j = 0;j<=n-1;j++){	
             //wrong -> Key170619:case -> "aaaa"  dp[0][3]是由dp[1][2]推出来的，可是此时dp[1][2]还没有算出来。无法用dp，因为s.charAt(i) == s.charAt(j)时，需要判断dp[i+1][j-1]，但此时并未计算出来。如果用dp[i][j-1]判断的话，则需要dp[i][j-1]为false加上其它条件才可判断出来dp[i][j]是否为true。思考起来比较麻烦
             for(int i = j-1;i>=0;i--){
 				//mark2 两两比较的基础情况
@@ -1324,6 +1325,7 @@ public class Solution {
  //2.mark1:case:[1],1 [1,2,3,4],4 即n==连表长度。不要写(right != null)这个，会有些问题
 public class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
+		//left,right从哪个ListNode开始无所谓，即使我新增100个dummyNode，然后从第一个dummyNode开始算起，也没关系。只要index1和index2永远相差n就可以了。
         ListNode res = null,index = new ListNode(0),left = index,right = index;
         index.next = head;
         int counter = 0;
